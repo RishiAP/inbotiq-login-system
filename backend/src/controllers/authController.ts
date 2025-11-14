@@ -14,11 +14,19 @@ function signToken(user: IUser) {
 
 function cookieOptions() {
   const maxAge = 7 * 24 * 60 * 60 * 1000; // 7 days
+  const isProd = process.env.NODE_ENV === 'production';
+  // For cross-site requests (frontend and backend on different origins)
+  // browsers require SameSite=None and Secure to allow cookies.
+  // Allow overriding the cookie domain when deploying under a shared domain.
+  const domain = process.env.COOKIE_DOMAIN || undefined; // e.g. ".example.com"
+
   return {
     httpOnly: true,
-    secure: process.env.NODE_ENV === 'production',
-    sameSite: 'lax' as const,
+    secure: isProd,
+    sameSite: isProd ? ('none' as const) : ('lax' as const),
     maxAge,
+    path: '/',
+    ...(domain ? { domain } : {}),
   };
 }
 
@@ -72,8 +80,15 @@ export async function login(req: Request, res: Response) {
 
 export async function logout(req: Request, res: Response) {
   await connect();
-  const COOKIE_NAME_LOCAL = process.env.AUTH_COOKIE_NAME || 'token';
-  res.clearCookie(COOKIE_NAME_LOCAL, { httpOnly: true, sameSite: 'lax', secure: process.env.NODE_ENV === 'production' });
+  // Clear cookie using the same options used when setting it so the browser will remove it.
+  const options = {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === 'production',
+    sameSite: process.env.NODE_ENV === 'production' ? ('none' as const) : ('lax' as const),
+    path: '/',
+    ...(process.env.COOKIE_DOMAIN ? { domain: process.env.COOKIE_DOMAIN } : {}),
+  };
+  res.clearCookie(COOKIE_NAME, options);
   return res.json({ message: 'Logged out' });
 }
 
