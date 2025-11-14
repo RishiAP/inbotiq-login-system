@@ -1,6 +1,6 @@
 import { Router, Response } from 'express';
-import { listUsers, banUser, unbanUser } from '@/controllers/adminController';
-import { requireAuth, AuthRequest } from '@/middleware/auth';
+import { listUsers, banUser, unbanUser } from '../controllers/adminController';
+import { requireAuth, AuthRequest } from '../middleware/auth';
 
 const router = Router();
 

@@ -1,8 +1,8 @@
 import { Response } from 'express';
-import User, { IUser } from '@/models/User';
+import User, { IUser } from '../models/User';
 import { FilterQuery, SortOrder } from 'mongoose';
-import { connect } from '@/lib/db';
-import { AuthRequest } from '@/middleware/auth';
+import { connect } from '../lib/db';
+import { AuthRequest } from '../middleware/auth';
 
 export async function listUsers(req: AuthRequest, res: Response) {
   try {

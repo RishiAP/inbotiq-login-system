@@ -1,8 +1,8 @@
 import dotenv from 'dotenv';
 dotenv.config();
 
-import app from '@/app';
-import { connect } from '@/lib/db';
+import app from './app';
+import { connect } from './lib/db';
 
 const PORT = process.env.PORT ? Number(process.env.PORT) : 4000;
 

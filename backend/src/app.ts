@@ -1,9 +1,9 @@
 import express, { Request, Response, NextFunction } from 'express';
 import cors from 'cors';
 import cookieParser from 'cookie-parser';
-import authRouter from '@/routes/auth';
-import notesRouter from '@/routes/notes';
-import adminRouter from '@/routes/admin';
+import authRouter from './routes/auth';
+import notesRouter from './routes/notes';
+import adminRouter from './routes/admin';
 
 const app = express();
 

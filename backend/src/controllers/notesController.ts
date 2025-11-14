@@ -1,9 +1,9 @@
 import { Response } from 'express';
 import { FilterQuery } from 'mongoose';
-import Note, { INote } from '@/models/Note';
-import { connect } from '@/lib/db';
-import User, { IUser } from '@/models/User';
-import { AuthRequest } from '@/middleware/auth';
+import Note, { INote } from '../models/Note';
+import { connect } from '../lib/db';
+import User, { IUser } from '../models/User';
+import { AuthRequest } from '../middleware/auth';
 
 // Create a note. If admin passes userId in body they can create for that user, otherwise for self.
 export async function createNote(req: AuthRequest, res: Response) {
